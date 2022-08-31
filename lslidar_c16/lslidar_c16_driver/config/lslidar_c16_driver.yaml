@@ -1,0 +1,4 @@
+lidar_ip: "192.168.1.222"
+device_port: 2368
+add_multicast: false
+group_ip: "224.1.1.2"
