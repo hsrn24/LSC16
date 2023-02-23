@@ -211,6 +211,7 @@ namespace lslidar_rawdata {
         float R1_;
         float R2_;
         bool angle_flag_;
+        bool inverse_angle_;
         float start_angle_;
         float end_angle_;
         float max_distance_;

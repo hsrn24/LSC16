@@ -33,6 +33,7 @@ namespace lslidar_rawdata {
 
         start_angle_ = 0.0f;
         end_angle_ = 360.0f;
+        inverse_angle_ = true;
         max_distance_ = 200.0f;
         min_distance_ = 0.2f;
         degree_mode_ = 0;
@@ -43,6 +44,7 @@ namespace lslidar_rawdata {
         return_mode_ = 1;
         private_nh_->declare_parameter("start_angle");
         private_nh_->declare_parameter("end_angle");
+        private_nh_->declare_parameter("inverse_angle");
         private_nh_->declare_parameter("max_distance");
         private_nh_->declare_parameter("min_distance");
         private_nh_->declare_parameter("degree_mode");
@@ -54,6 +56,7 @@ namespace lslidar_rawdata {
 
         private_nh_->get_parameter("start_angle", start_angle_);
         private_nh_->get_parameter("end_angle", end_angle_);
+        private_nh_->declare_parameter("inverse_angle", inverse_angle_);
         private_nh_->get_parameter("max_distance", max_distance_);
         private_nh_->get_parameter("min_distance", min_distance_);
         private_nh_->get_parameter("degree_mode", degree_mode_);
@@ -74,11 +77,8 @@ namespace lslidar_rawdata {
         angle_flag_ = true;
         if (start_angle_ > end_angle_) {
             angle_flag_ = false;
-            RCLCPP_INFO(private_nh_->get_logger(), "Start angle is smaller than end angle, not the normal state!");
+            RCLCPP_FATAL(private_nh_->get_logger(), "Start angle is smaller than end angle, not the normal state!");
         }
-
-        start_angle_ = start_angle_ / 180 * M_PI;
-        end_angle_ = end_angle_ / 180 * M_PI;
 
         RCLCPP_INFO(private_nh_->get_logger(), "config_vert: %d, print_vert: %d", config_vert_, print_vert_);
         RCLCPP_INFO(private_nh_->get_logger(), "distance threshlod, max: %f, min: %f", max_distance_, min_distance_);
@@ -302,6 +302,10 @@ namespace lslidar_rawdata {
 
                     azimuth_corrected = ((int) round(azimuth_corrected_f)) % 36000;  // convert to integral value...
 
+                    auto azimuth_deg = azimuth_corrected_f/100;
+                    // auto& clk = *private_nh_->get_clock();
+                    // RCLCPP_INFO_THROTTLE(private_nh_->get_logger(), clk, 1, "azimuth_deg = %f", azimuth_deg);
+                    // RCLCPP_INFO(private_nh_->get_logger(), "Azimuth/100 = %f", azimuth_corrected_f/100);
                     cos_azimuth = cos_azimuth_table[azimuth_corrected];
                     sin_azimuth = sin_azimuth_table[azimuth_corrected];
 
@@ -327,7 +331,13 @@ namespace lslidar_rawdata {
                     pcl::PointXYZI point;
                     //VPoint point;
 
-                    //if ((azimuth_corrected_f < scan_start_angle_) || (azimuth_corrected_f > scan_end_angle_)) continue;
+                    if (inverse_angle_){
+                        if (!(azimuth_deg < start_angle_ || azimuth_deg > end_angle_)) continue;
+                    }
+                    else {
+                        if ((azimuth_deg < start_angle_) || (azimuth_deg > end_angle_)) continue;
+                    }
+                    
                     if (distance2 > max_distance_ || distance2 < min_distance_) {
                         point.x = NAN;
                         point.y = NAN;
