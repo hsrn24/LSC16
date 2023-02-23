@@ -56,7 +56,7 @@ namespace lslidar_rawdata {
 
         private_nh_->get_parameter("start_angle", start_angle_);
         private_nh_->get_parameter("end_angle", end_angle_);
-        private_nh_->declare_parameter("inverse_angle", inverse_angle_);
+        private_nh_->get_parameter("inverse_angle", inverse_angle_);
         private_nh_->get_parameter("max_distance", max_distance_);
         private_nh_->get_parameter("min_distance", min_distance_);
         private_nh_->get_parameter("degree_mode", degree_mode_);
