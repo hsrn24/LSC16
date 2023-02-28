@@ -28,9 +28,9 @@ find_package(lslidar_c16_decoder REQUIRED)
 find_package(PkgConfig REQUIRED)
 
 # Node
-add_executable(lslidar_node src/lslidar_c16_driver_node.cpp src/lslidar_c16_driver.cpp src/input.cc)
-target_link_libraries(lslidar_node ${rclcpp_LIBRARIES} ${libpcap_LIBRARIES})
-ament_target_dependencies(lslidar_node rclcpp std_msgs lslidar_c16_msgs sensor_msgs diagnostic_updater)
+add_executable(lslidar_c16_driver src/lslidar_c16_driver_node.cpp src/lslidar_c16_driver.cpp src/input.cc)
+target_link_libraries(lslidar_c16_driver ${rclcpp_LIBRARIES} ${libpcap_LIBRARIES})
+ament_target_dependencies(lslidar_c16_driver rclcpp std_msgs lslidar_c16_msgs sensor_msgs diagnostic_updater)
 
 # Composition (driver + pointcloud)
 add_executable(lslidar_c16_executor src/lslidar_c16_executor.cc src/lslidar_c16_driver.cpp src/input.cc)
@@ -43,7 +43,7 @@ include_directories(
 )
 
 install(TARGETS
-  lslidar_node
+  lslidar_c16_driver
   lslidar_c16_executor
   DESTINATION lib/${PROJECT_NAME}
 )

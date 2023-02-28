@@ -13,15 +13,15 @@ def generate_launch_description():
     decoder_dir = os.path.join(get_package_share_directory('lslidar_c16_decoder'), 'params', 'lslidar_c16.yaml')
     
     decoder_node = LifecycleNode(package='lslidar_c16_decoder',
-                                executable='cloud_node',
-                                name='cloud_node',
+                                executable='lslidar_c16_decoder',
+                                name='lslidar_c16_decoder',
                                 output='screen',
                                 emulate_tty=True,
                                 parameters=[decoder_dir],
                                 )
     driver_node = LifecycleNode(package='lslidar_c16_driver',
-                                executable='lslidar_node',
-                                name='lslidar_node',
+                                executable='lslidar_c16_driver',
+                                name='lslidar_c16_driver',
                                 output='screen',
                                 emulate_tty=True,
                                 parameters=[decoder_dir],

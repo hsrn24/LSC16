@@ -33,9 +33,9 @@ add_library(pointcloud_converter src/convert.cpp src/rawdata.cpp)
 target_link_libraries(pointcloud_converter ${rclcpp_LIBRARIES})
 ament_target_dependencies(pointcloud_converter rclcpp std_msgs lslidar_c16_msgs sensor_msgs pcl_conversions)
 
-add_executable(cloud_node src/cloud_node.cpp)
-target_link_libraries(cloud_node ${rclcpp_LIBRARIES} pointcloud_converter)
-ament_target_dependencies(cloud_node rclcpp std_msgs lslidar_c16_msgs sensor_msgs pcl_conversions)
+add_executable(lslidar_c16_decoder src/lslidar_c16_decoder.cpp)
+target_link_libraries(lslidar_c16_decoder ${rclcpp_LIBRARIES} pointcloud_converter)
+ament_target_dependencies(lslidar_c16_decoder rclcpp std_msgs lslidar_c16_msgs sensor_msgs pcl_conversions)
 
 include_directories(
         include
@@ -43,7 +43,7 @@ include_directories(
 )
 
 install(TARGETS
-  cloud_node
+  lslidar_c16_decoder
   DESTINATION lib/${PROJECT_NAME}
 )
 

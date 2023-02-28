@@ -19,7 +19,7 @@ namespace lslidar_c16_decoder {
     Convert::Convert() : Convert(rclcpp::NodeOptions()) {}
 
 /** @brief Constructor. */
-    Convert::Convert(const rclcpp::NodeOptions &options) : Node("cloud_node", options),
+    Convert::Convert(const rclcpp::NodeOptions &options) : Node("lslidar_c16_decoder", options),
                                                            data_(new lslidar_rawdata::RawData(this)) {
         data_->loadConfigFile();  // load lidar parameters
 

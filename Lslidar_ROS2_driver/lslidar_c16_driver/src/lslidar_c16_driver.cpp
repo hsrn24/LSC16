@@ -22,7 +22,7 @@ namespace lslidar_c16_driver {
     lslidarDriver::lslidarDriver() : lslidarDriver(rclcpp::NodeOptions()) {}
 
     lslidarDriver::lslidarDriver(const rclcpp::NodeOptions &options) :
-            Node("lslidar_node", options)//,  diagnostics_(this)
+            Node("lslidar_c16_driver", options)//,  diagnostics_(this)
     {
         //std::string tf_prefix = tf::getPrefixParam(private_nh);
         //ROS_DEBUG_STREAM("tf_prefix: " << tf_prefix);
